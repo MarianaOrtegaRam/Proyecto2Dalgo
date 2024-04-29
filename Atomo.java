@@ -1,16 +1,16 @@
 public class Atomo {
 
-    private int masa;
+    private Integer masa;
     private boolean carga;
-    private int cargaMasa;
+    private Integer cargaMasa;
 
-    public Atomo(int masa, boolean carga, int cargaMasa) {
+    public Atomo(Integer masa, boolean carga, Integer cargaMasa) {
         this.carga = carga;
         this.masa = masa;
         this.cargaMasa = cargaMasa;
     }
 
-    public int getCargaMasa() {
+    public Integer getCargaMasa() {
         return this.cargaMasa;
     }
 
@@ -18,7 +18,7 @@ public class Atomo {
         return this.carga;
     }
 
-    public int getMasa() {
+    public Integer getMasa() {
         return this.masa;
     }
 }
