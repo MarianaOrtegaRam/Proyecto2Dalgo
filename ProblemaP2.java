@@ -1,3 +1,7 @@
+//Mariana Ortega - 2022112313 
+
+//Paulina Arrázola - 202020631 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,14 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class boltz {
+public class ProblemaP2 {
 
     int w1;
     int w2;
-    List<elemento> elementos;
-    boolean posible;
-    List<Atomo> caminoMinimo;
-    HashMap<Integer, List<elemento>> conexiones = new HashMap<>();
+    List<elemento> elementos; // lista de elementos que me pasan inicialmente
+    boolean posible; // indica si es posible generar una cadena de elementos
+    HashMap<Integer, List<elemento>> conexiones = new HashMap<>(); // almacena los elementos en los que se encuentra
+                                                                   // cada atomo
     List<Atomo> atomosPosibles = new ArrayList<>();
     Map<Integer, Map<Integer, Integer>> grafo = new HashMap<>();
     List<elemento> caminoSinIntermedios = new ArrayList<>();
@@ -23,7 +27,7 @@ public class boltz {
     Map<Integer, Integer> pesoCostoMinimo = new HashMap<>();
     String caminoFinal;
 
-    public boltz(int w1, int w2, List<elemento> elementos) {
+    public ProblemaP2(int w1, int w2, List<elemento> elementos) {
         this.elementos = elementos;
         this.w1 = w1;
         this.w2 = w2;
@@ -32,36 +36,8 @@ public class boltz {
         if (pos) {
             calcularCaminoMinimo(w1, w2, elementos);
             darCaminoFinal();
-        } else {
-            this.caminoMinimo = null;
         }
 
-    }
-
-    public static void main(String[] args) {
-        // Crear una lista de elementos
-        List<elemento> elementos = new ArrayList<>();
-        // Agregar elementos a la lista (suponiendo que elemento y Atomo están definidos
-        // correctamente)
-        elementos.add(new elemento(1, 2));
-        elementos.add(new elemento(1, 4));
-        // Crear una instancia de boltz
-        boltz miBoltz = new boltz(1, 2, elementos);
-        // Verificar si es posible el camino
-        boolean esPosible = miBoltz.posible;
-
-        if (esPosible) {
-            System.out.println("Es posible encontrar un camino.");
-            // Obtener el camino mínimo (aún no implementado)
-            List<Atomo> caminoMinimo = miBoltz.caminoMinimo;
-            if (caminoMinimo != null) {
-                System.out.println("El camino mínimo es: " + caminoMinimo);
-            } else {
-                System.out.println("No se ha calculado el camino mínimo.");
-            }
-        } else {
-            System.out.println("No es posible encontrar un camino.");
-        }
     }
 
     private void darCaminoFinal() {

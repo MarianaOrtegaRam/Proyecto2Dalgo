@@ -1,3 +1,6 @@
+//Mariana Ortega - 2022112313 
+
+//Paulina Arrázola - 202020631 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,7 +30,7 @@ public class Analizador {
             fileScanner.nextLine(); // Consumir el salto de línea
 
             // Lista para almacenar los casos de prueba
-            List<boltz> casos = new ArrayList<>();
+            List<ProblemaP2> casos = new ArrayList<>();
 
             // Leer cada caso de prueba
             for (int i = 0; i < cantcasos; i++) {
@@ -47,7 +50,7 @@ public class Analizador {
                     elementos.add(unElemento);
                     fileScanner.nextLine(); // Consumir el salto de línea
                 }
-                boltz caso = new boltz(w1, w2, elementos);
+                ProblemaP2 caso = new ProblemaP2(w1, w2, elementos);
                 boolean posible = caso.getPosible();
                 if (posible == false) {
                     System.out.println("NO SE PUEDE EJECUTAR");
