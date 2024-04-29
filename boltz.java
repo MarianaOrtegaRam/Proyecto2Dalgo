@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class boltz {
 
@@ -16,12 +17,39 @@ public class boltz {
         this.w1 = w1;
         this.w2 = w2;
         boolean pos = caminoPosible(w1, w2, elementos);
+        this.posible = pos;
         if (pos) {
             this.caminoMinimo = calcularCaminoMinimo(w1, w2, elementos);
         } else {
             this.caminoMinimo = null;
         }
 
+    }
+
+    public static void main(String[] args) {
+        // Crear una lista de elementos
+        List<elemento> elementos = new ArrayList<>();
+        // Agregar elementos a la lista (suponiendo que elemento y Atomo están definidos
+        // correctamente)
+        elementos.add(new elemento(1, 2));
+        elementos.add(new elemento(1, 4));
+        // Crear una instancia de boltz
+        boltz miBoltz = new boltz(1, 2, elementos);
+        // Verificar si es posible el camino
+        boolean esPosible = miBoltz.posible;
+
+        if (esPosible) {
+            System.out.println("Es posible encontrar un camino.");
+            // Obtener el camino mínimo (aún no implementado)
+            List<Atomo> caminoMinimo = miBoltz.caminoMinimo;
+            if (caminoMinimo != null) {
+                System.out.println("El camino mínimo es: " + caminoMinimo);
+            } else {
+                System.out.println("No se ha calculado el camino mínimo.");
+            }
+        } else {
+            System.out.println("No es posible encontrar un camino.");
+        }
     }
 
     public boolean caminoPosible(int w1, int w2, List<elemento> elementos) {
@@ -78,7 +106,24 @@ public class boltz {
          * otros conjuntos de elementos.
          */
 
-        return false;
+        int contadorUnicos = 0;
+
+        for (Map.Entry<Integer, List<elemento>> entry : conexiones.entrySet()) {
+            int key = entry.getKey();
+            List<elemento> value = entry.getValue();
+
+            if (value.size() == 1) {
+                contadorUnicos += 1;
+
+            }
+
+        }
+
+        if (contadorUnicos > 2) {
+            return false;
+        }
+
+        return true;
     }
 
     public List<Atomo> calcularCaminoMinimo(int w1, int w2, List<elemento> elementos) {
