@@ -11,6 +11,8 @@ public class boltz {
     boolean posible;
     List<Atomo> caminoMinimo;
     HashMap<Integer, List<elemento>> conexiones = new HashMap<>();
+    List<Atomo> atomosPosibles = new ArrayList<>();
+    Map<Integer, Map<Integer, Integer>> grafo = new HashMap<>();
 
     public boltz(int w1, int w2, List<elemento> elementos) {
         this.elementos = elementos;
@@ -62,11 +64,24 @@ public class boltz {
          * en
          * cuenta los atomos libres intermedios, si sería posible armar una cadena de
          * elementos
+         * 
+         * 
+         * Adicionalmente saco los atomos posibles para hacer usarse como atomos libres
+         * para los enlances boltz
          */
 
         for (elemento e : elementos) {
             Atomo a1 = e.getAtomo1();
+            int masa1 = a1.getMasa();
+            boolean carga1 = a1.getCarga();
+            int cargaMasa1 = a1.getCargaMasa();
+            Atomo a12 = new Atomo(masa1, carga1, cargaMasa1);
             Atomo a2 = e.getAtomo2();
+
+            int masa2 = a2.getMasa();
+            boolean carga2 = a2.getCarga();
+            int cargaMasa2 = a2.getCargaMasa();
+            Atomo a22 = new Atomo(masa2, carga2, cargaMasa2);
             if (!conexiones.containsKey(a1.getCargaMasa())) {
 
                 List<elemento> nuevaLista = new ArrayList<>();
@@ -89,6 +104,22 @@ public class boltz {
                 List<elemento> presencias2 = conexiones.get(a2.getCargaMasa());
                 presencias2.add(e);
                 conexiones.put(a2.getCargaMasa(), presencias2);
+            }
+
+            if (!atomosPosibles.contains(a2)) {
+                atomosPosibles.add(a2);
+            }
+
+            if (!atomosPosibles.contains(a12)) {
+                atomosPosibles.add(a12);
+            }
+
+            if (!atomosPosibles.contains(a1)) {
+                atomosPosibles.add(a1);
+            }
+
+            if (!atomosPosibles.contains(a2)) {
+                atomosPosibles.add(a2);
             }
 
         }
@@ -127,7 +158,41 @@ public class boltz {
     }
 
     public List<Atomo> calcularCaminoMinimo(int w1, int w2, List<elemento> elementos) {
+        armarGrafo(this.atomosPosibles, w1, w2);
+
         return null;
     }
 
+    public void armarGrafo(List<Atomo> atomosPosibles, int w1, int w2) {
+        for (Atomo atomo1 : atomosPosibles) {
+            Map<Integer, Integer> mapaListaAdj = new HashMap<>(); // para cada atomo
+            for (Atomo atomo2 : atomosPosibles) {
+                if (atomo1.getMasa() != atomo2.getMasa()) { // solo hago el caso cuando no sea con el misma masa,
+                                                            // diferente carga
+                    int LTP = calcularLTP(atomo1, atomo2, w1, w2); // este es el peso del arco
+                    mapaListaAdj.put(atomo2.getCargaMasa(), LTP); // las llaves son cargaMasa de Atomo2, y valor es el
+                                                                  // LTP atomo 1 con atomo2
+                }
+            }
+            this.grafo.put(atomo1.getCargaMasa(), mapaListaAdj);
+        }
+    }
+
+    public int calcularLTP(Atomo a1, Atomo a2, int w1, int w2) {
+        int LTP;
+        boolean c1 = a1.getCarga();
+        boolean c2 = a2.getCarga();
+        int masa1 = a1.getMasa();
+        int masa2 = a2.getMasa();
+        int diferenciaABS = Math.abs(masa1 - masa2);
+
+        if (c1 == c2) {
+            LTP = 1 + (diferenciaABS % w1);
+        } else {
+            LTP = w2 - (diferenciaABS % w2);
+        }
+
+        return LTP;
+
+    }
 }
